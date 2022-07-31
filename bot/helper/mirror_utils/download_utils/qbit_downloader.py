@@ -199,10 +199,10 @@ def get_confirm(update, context):
     data = data.split(" ")
     qbdl = getDownloadByGid(data[2])
     if not qbdl:
-        query.answer(text="This task has been cancelled!", show_alert=True)
+        query.answer(text="This task has been cancelled Man!", show_alert=True)
         query.message.delete()
     elif user_id != qbdl.listener().message.from_user.id:
-        query.answer(text="This task is not for you!", show_alert=True)
+        query.answer(text="Bro This task is not for you!", show_alert=True)
     elif data[1] == "pin":
         query.answer(text=data[3], show_alert=True)
     elif data[1] == "done":

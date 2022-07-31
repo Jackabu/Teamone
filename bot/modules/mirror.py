@@ -256,8 +256,8 @@ class MirrorListener:
                 buttons.buildbutton("View file in PM", f"{botstart}")
             msg += f'\n<b>Total - </b>{folders}'
             if typ != 0:
-                msg += f'\n<b>Corrupted Files: </b>{typ}'
-            msg += f'\n<b>cc: </b>{self.tag}\n\n'
+                msg += f'\n<b>Corrupted Files - </b>{typ}'
+            msg += f'\n<b>Request By </b>{self.tag}\n\n'
             if not files:
                 uploadmsg = sendMessage(msg, self.bot, self.message)
             else:

@@ -63,7 +63,7 @@ class TgUploader:
                     self._last_uploaded = 0
                     sleep(1)
         if self.__total_files <= self.__corrupted:
-            return self.__listener.onUploadError('Files Corrupted. Check logs')
+            return self.__listener.onUploadError('Bro Files Corrupted')
         LOGGER.info(f"Leech Completed: {self.name}")
         self.__listener.onUploadComplete(None, size, self.__msgs_dict, self.__total_files, self.__corrupted, self.name)
 
@@ -283,5 +283,5 @@ class TgUploader:
 
     def cancel_download(self):
         self.__is_cancelled = True
-        LOGGER.info(f"Cancelling Upload: {self.name}")
-        self.__listener.onUploadError('your upload has been stopped!')
+        LOGGER.info(f"Cancelling Upload - {self.name}")
+        self.__listener.onUploadError('upload has been stopped ☢ !')

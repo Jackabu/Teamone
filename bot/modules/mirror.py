@@ -488,7 +488,7 @@ def _mirror(bot, message, isZip=False, extract=False, isQbit=False, isLeech=Fals
                 link = file.get_file().file_path
 
     if not is_url(link) and not is_magnet(link) and not ospath.exists(link):
-        help_msg = "<b> Connected To Dev @Jackssmit IF You Dont Now How To Use  </b>"
+        help_msg = "<b> Connected To Dev @Jackssmit IF You Dont Now  </b>"
         help_msg += "\n<code>/command</code> {link} |newname pswd: xx [zip/unzip]"
         help_msg += "\n\n<b>By replying to link or file:</b>"
         help_msg += "\n<code>/command</code> |newname pswd: xx [zip/unzip]"

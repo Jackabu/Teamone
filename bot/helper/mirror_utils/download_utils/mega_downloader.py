@@ -18,7 +18,7 @@ class MegaDownloader:
         self.__name = ""
         self.__gid = ''
         self.__resource_lock = Lock()
-        self.__mega_client = MegaSdkRestClient('http://localhost:6090')
+        self.__mega_client = MegaSdkRestClient('http://localhost:6090/')
         self.__periodic = None
         self.__downloaded_bytes = 0
         self.__progress = 0
@@ -75,7 +75,7 @@ class MegaDownloader:
             self.__onDownloadComplete()
             return
         if dlInfo['state'] == constants.State.TYPE_STATE_CANCELED:
-            self.__onDownloadError('Download stopped by user!')
+            self.__onDownloadError(' ☢ ')
             return
         if dlInfo['state'] == constants.State.TYPE_STATE_FAILED:
             self.__onDownloadError(dlInfo['error_string'])

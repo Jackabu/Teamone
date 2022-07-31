@@ -94,9 +94,9 @@ class AriaDownloadStatus:
             return
         if len(download.followed_by_ids) != 0:
             downloads = aria2.get_downloads(download.followed_by_ids)
-            self.__listener.onDownloadError('Download stopped by user!')
+            self.__listener.onDownloadError(' ☢ ')
             aria2.remove(downloads, force=True, files=True)
             aria2.remove([download], force=True, files=True)
             return
-        self.__listener.onDownloadError('Download stopped by user!')
+        self.__listener.onDownloadError('Download stopped ☢')
         aria2.remove([download], force=True, files=True)

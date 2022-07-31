@@ -45,7 +45,7 @@ class QbDownloader:
                         if len(tor_info) > 0:
                             break
                         elif time() - self.__stalled_time >= 12:
-                            msg = "This Torrent already added or not a torrent. If something wrong please report."
+                            msg = "We Found Zombie virus On This Torrent. If Something Wrong Report To Jack"
                             sendMessage(msg, self.__listener.bot, self.__listener.message)
                             self.client.auth_log_out()
                             return
@@ -109,7 +109,7 @@ class QbDownloader:
             if tor_info.state == "metaDL":
                 self.__stalled_time = time()
                 if TORRENT_TIMEOUT is not None and time() - tor_info.added_on >= TORRENT_TIMEOUT:
-                    self.__onDownloadError("Dead Torrent!")
+                    self.__onDownloadError("Bro Your Torrent is Zombie 🧟 Means Dead !")
             elif tor_info.state == "downloading":
                 self.__stalled_time = time()
                 if not self.__dupChecked and STOP_DUPLICATE and ospath.isdir(f'{self.__path}') and not self.__listener.isLeech:
@@ -190,7 +190,7 @@ class QbDownloader:
         self.periodic.cancel()
 
     def cancel_download(self):
-        self.__onDownloadError('Download stopped by user!')
+        self.__onDownloadError(' ☢ ')
 
 def get_confirm(update, context):
     query = update.callback_query

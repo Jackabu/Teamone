@@ -19,7 +19,7 @@ def list_buttons(update, context):
     buttons.sbutton("Both", f"types {user_id} both")
     buttons.sbutton("Cancel", f"types {user_id} cancel")
     button = InlineKeyboardMarkup(buttons.build_menu(2))
-    sendMarkup('Choose option to list.', context.bot, update.message, button)
+    sendMarkup('Bro Choose option to list ', context.bot, update.message, button)
 
 def select_type(update, context):
     query = update.callback_query
@@ -29,23 +29,23 @@ def select_type(update, context):
     data = query.data
     data = data.split(" ")
     if user_id != int(data[1]):
-        return query.answer(text="Not Yours!", show_alert=True)
+        return query.answer(text="Not Yours Man!", show_alert=True)
     elif data[2] == 'cancel':
         query.answer()
-        return editMessage("list has been canceled!", msg)
+        return editMessage("Bro list has been canceled!", msg)
     query.answer()
     item_type = data[2]
-    editMessage(f"<b>Searching for <i>{key}</i></b>", msg)
+    editMessage(f"<b>Searching <i>{key}</i></b>", msg)
     Thread(target=_list_drive, args=(key, msg, item_type)).start()
 
 def _list_drive(key, bmsg, item_type):
-    LOGGER.info(f"listing: {key}")
+    LOGGER.info(f"Wait listing - {key}")
     gdrive = GoogleDriveHelper()
     msg, button = gdrive.drive_list(key, isRecursive=True, itemType=item_type)
     if button:
         editMessage(msg, bmsg, button)
     else:
-        editMessage(f'No result found for <i>{key}</i>', bmsg)
+        editMessage(f'Bro No result  <i>{key}</i>', bmsg)
 
 list_handler = CommandHandler(BotCommands.ListCommand, list_buttons, filters=CustomFilters.authorized_chat | CustomFilters.authorized_user, run_async=True)
 list_type_handler = CallbackQueryHandler(select_type, pattern="types", run_async=True)

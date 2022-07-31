@@ -66,13 +66,13 @@ def torser(update, context):
         buttons.sbutton('Plugins', f"torser {user_id} plugin")
         buttons.sbutton("Cancel", f"torser {user_id} cancel")
         button = InlineKeyboardMarkup(buttons.build_menu(2))
-        sendMarkup('Choose tool to search:', context.bot, update.message, button)
+        sendMarkup('Bro Choose tool to search ', context.bot, update.message, button)
     elif SEARCH_API_LINK is not None and SEARCH_PLUGINS is None:
         button = _api_buttons(user_id, "apisearch")
-        sendMarkup('Choose site to search:', context.bot, update.message, button)
+        sendMarkup('Bro Choose site to search ', context.bot, update.message, button)
     elif SEARCH_API_LINK is None and SEARCH_PLUGINS is not None:
         button = _plugin_buttons(user_id)
-        sendMarkup('Choose site to search:', context.bot, update.message, button)
+        sendMarkup('Bro Choose site to search ', context.bot, update.message, button)
 
 def torserbut(update, context):
     query = update.callback_query
@@ -86,15 +86,15 @@ def torserbut(update, context):
     data = query.data
     data = data.split(" ")
     if user_id != int(data[1]):
-        query.answer(text="Not Yours!", show_alert=True)
+        query.answer(text="Not Yours Man !", show_alert=True)
     elif data[2].startswith('api'):
         query.answer()
         button = _api_buttons(user_id, data[2])
-        editMessage('Choose site:', message, button)
+        editMessage('Bro Choose site ', message, button)
     elif data[2] == 'plugin':
         query.answer()
         button = _plugin_buttons(user_id)
-        editMessage('Choose site:', message, button)
+        editMessage('Bro Choose site ', message, button)
     elif data[2] != "cancel":
         query.answer()
         site = data[2]
@@ -105,7 +105,7 @@ def torserbut(update, context):
                     endpoint = 'Trending'
                 elif method == 'apirecent':
                     endpoint = 'Recent'
-                editMessage(f"<b>Listing {endpoint} Items...\nTorrent Site:- <i>{SITES.get(site)}</i></b>", message)
+                editMessage(f"<b>Wait Listing {endpoint} Items...\nTorrent Site  <i>{SITES.get(site)}</i></b>", message)
             else:
                 editMessage(f"<b>Searching for <i>{key}</i>\nTorrent Site:- <i>{SITES.get(site)}</i></b>", message)
         else:
@@ -113,7 +113,7 @@ def torserbut(update, context):
         Thread(target=_search, args=(key, site, message, method)).start()
     else:
         query.answer()
-        editMessage("Search has been canceled!", message)
+        editMessage("Bro Search has been canceled!", message)
 
 def _search(key, site, message, method):
     if method.startswith('api'):
@@ -142,11 +142,11 @@ def _search(key, site, message, method):
                 return editMessage(f"No result found for <i>{key}</i>\nTorrent Site:- <i>{SITES.get(site)}</i>", message)
             msg = f"<b>Found {min(search_results['total'], TELEGRAPH_LIMIT)}</b>"
             if method == 'apitrend':
-                msg += f" <b>trending result(s)\nTorrent Site:- <i>{SITES.get(site)}</i></b>"
+                msg += f" <b>trending result(s)\nTorrent Site  <i>{SITES.get(site)}</i></b>"
             elif method == 'apirecent':
-                msg += f" <b>recent result(s)\nTorrent Site:- <i>{SITES.get(site)}</i></b>"
+                msg += f" <b>recent result(s)\nTorrent Site  <i>{SITES.get(site)}</i></b>"
             else:
-                msg += f" <b>result(s) for <i>{key}</i>\nTorrent Site:- <i>{SITES.get(site)}</i></b>"
+                msg += f" <b>result(s) for <i>{key}</i>\nTorrent Site  <i>{SITES.get(site)}</i></b>"
             search_results = search_results['data']
         except Exception as e:
             return editMessage(str(e), message)
@@ -166,10 +166,10 @@ def _search(key, site, message, method):
         if total_results == 0:
             return editMessage(f"No result found for <i>{key}</i>\nTorrent Site:- <i>{site.capitalize()}</i>", message)
         msg = f"<b>Found {min(total_results, TELEGRAPH_LIMIT)}</b>"
-        msg += f" <b>result(s) for <i>{key}</i>\nTorrent Site:- <i>{site.capitalize()}</i></b>"
+        msg += f" <b>result(s) for <i>{key}</i>\nTorrent Site  <i>{site.capitalize()}</i></b>"
     link = _getResult(search_results, key, message, method)
     buttons = button_build.ButtonMaker()
-    buttons.buildbutton("🔎 VIEW", link)
+    buttons.buildbutton(" Hit Me ", link)
     button = InlineKeyboardMarkup(buttons.build_menu(1))
     editMessage(msg, message, button)
     if not method.startswith('api'):
@@ -184,7 +184,7 @@ def _getResult(search_results, key, message, method):
     elif method == 'apitrend':
         msg = "<h4>API Trending Results</h4>"
     else:
-        msg = f"<h4>PLUGINS Search Result(s) For {key}</h4>"
+        msg = f"<h4>  {key}</h4>"
     for index, result in enumerate(search_results, start=1):
         if method.startswith('api'):
             if 'name' in result.keys():

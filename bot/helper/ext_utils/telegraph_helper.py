@@ -72,7 +72,7 @@ class TelegraphHelper:
                     nxt_page += 1
             self.edit_page(
                 path = path[prev_page],
-                title = 'Torrent Database',
+                title = 'DUMB L⚡ECH Database',
                 content=content
             )
         return

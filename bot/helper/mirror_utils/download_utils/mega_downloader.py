@@ -75,7 +75,7 @@ class MegaDownloader:
             self.__onDownloadComplete()
             return
         if dlInfo['state'] == constants.State.TYPE_STATE_CANCELED:
-            self.__onDownloadError(' ☢ ')
+            self.__onDownloadError(' ⚡️Processing Stop ')
             return
         if dlInfo['state'] == constants.State.TYPE_STATE_FAILED:
             self.__onDownloadError(dlInfo['error_string'])

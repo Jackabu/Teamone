@@ -192,7 +192,7 @@ class MirrorListener:
             except Exception as e:
                 LOGGER.error(str(e))
             count = len(download_dict)
-        msg = f"{self.tag} your download has been stopped Bro - {error}"
+        msg = f"{self.tag} ⚡️Processing Stop {error}"
         sendMessage(msg, self.bot, self.message)
         if count == 0:
             self.clean()
@@ -414,7 +414,7 @@ def _mirror(bot, message, isZip=False, extract=False, isQbit=False, isLeech=Fals
         return
     mesg = message.text.split('\n')
     message_args = mesg[0].split(' ', maxsplit=1)
-    name_args = mesg[0].split('|', maxsplit=1)
+    name_args = mesg[0].split('add', maxsplit=1)
     qbitsel = False
     is_gdtot = False
     try:
@@ -426,19 +426,19 @@ def _mirror(bot, message, isZip=False, extract=False, isQbit=False, isLeech=Fals
         elif link.isdigit():
             multi = int(link)
             raise IndexError
-        if link.startswith(("|", "pswd: ")):
+        if link.startswith(("add", "pas: ")):
             raise IndexError
     except:
         link = ''
     try:
         name = name_args[1]
-        name = name.split(' pswd: ')[0]
+        name = name.split(' pas: ')[0]
         name = name.strip()
     except:
         name = ''
-    link = re_split(r"pswd:| \|", link)[0]
+    link = re_split(r"pas:add \add", link)[0]
     link = link.strip()
-    pswdMsg = mesg[0].split(' pswd: ')
+    pswdMsg = mesg[0].split(' pas: ')
     if len(pswdMsg) > 1:
         pswd = pswdMsg[1]
 
@@ -529,7 +529,7 @@ def _mirror(bot, message, isZip=False, extract=False, isQbit=False, isLeech=Fals
         if MEGA_KEY is not None:
             Thread(target=MegaDownloader(listener).add_download, args=(link, f'{DOWNLOAD_DIR}{listener.uid}/')).start()
         else:
-            sendMessage('MEGA_API_KEY not Provided!', bot, message)
+            sendMessage('BRO I Need Premium Account For My Mega Links  If You Are Interested Then You Can Donate Mega Account Send (D MEGA) To @Jackssmit', bot, message)
     elif isQbit:
         Thread(target=QbDownloader(listener).add_qb_torrent, args=(link, f'{DOWNLOAD_DIR}{listener.uid}', qbitsel)).start()
     else:

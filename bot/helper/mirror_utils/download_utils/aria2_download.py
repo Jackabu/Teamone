@@ -15,7 +15,7 @@ def __onDownloadStarted(api, gid):
         if any([STOP_DUPLICATE, TORRENT_DIRECT_LIMIT, ZIP_UNZIP_LIMIT, STORAGE_THRESHOLD]):
             download = api.get_download(gid)
             if download.is_metadata:
-                LOGGER.info(f'onDownloadStarted: {gid} Metadata')
+                LOGGER.info(f'onDownloadStarted: {gid} Checking Torrent Its Take Time - Maybe Zombie Torrent 🧟 Means Dead')
                 return
             elif not download.is_torrent:
                 sleep(3)
@@ -39,7 +39,7 @@ def __onDownloadStarted(api, gid):
                     if smsg:
                         dl.getListener().onDownloadError('File/Folder Already Generated.\n\n')
                         api.remove([download], force=True, files=True)
-                        return sendMarkup("Here are the search results:", dl.getListener().bot, dl.getListener().message, button)
+                        return sendMarkup("Results ", dl.getListener().bot, dl.getListener().message, button)
             if any([ZIP_UNZIP_LIMIT, TORRENT_DIRECT_LIMIT, STORAGE_THRESHOLD]):
                 sleep(1)
                 limit = None

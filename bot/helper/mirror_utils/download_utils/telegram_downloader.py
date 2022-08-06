@@ -104,7 +104,7 @@ class TelegramDownloadHelper:
                     LOGGER.info('Checking File/Folder if already in Drive...')
                     smsg, button = GoogleDriveHelper().drive_list(name, True, True)
                     if smsg:
-                        msg = "File/Folder is already available in Drive.\nHere are the search results:"
+                        msg = "File/Folder is already available in Drive.\n\n Results"
                         self.__onEventEnd()
                         return sendMarkup(msg, self.__listener.bot, self.__listener.message, button)
                 if STORAGE_THRESHOLD is not None:
@@ -118,11 +118,11 @@ class TelegramDownloadHelper:
                 LOGGER.info(f'Downloading Telegram file with id: {media.file_unique_id}')
                 self.__download(_dmsg, path)
             else:
-                self.__onDownloadError('Yo Bro Cool Some Bro already being downloaded For You Man!')
+                self.__onDownloadError('Bro Someone already being downloaded For You Man!')
         else:
             self.__onDownloadError('No document in the replied message')
 
     def cancel_download(self):
-        LOGGER.info(f'Cancelling download on user request: {self.__id}')
+        LOGGER.info(f'Cancelling download on user request {self.__id}')
         self.__is_cancelled = True
-        self.__onDownloadError('Bro Cancelled by user!')
+        self.__onDownloadError('⚡️Processing Stop')

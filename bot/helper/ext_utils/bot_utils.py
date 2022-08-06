@@ -33,15 +33,15 @@ class MirrorStatus:
     STATUS_CHECKING = "𝗦𝗲𝗮𝗿𝗰𝗵𝗶𝗻𝗴 𝗙𝗶𝗹𝗲"
 
 class EngineStatus:
-    STATUS_ARIA = "Quad9 Engine"
-    STATUS_GDRIVE = "Google AI Engine"
-    STATUS_MEGA = "Mega Bit Engine"
-    STATUS_QB = "utorrent Engine"
-    STATUS_TG = "Cloudflare Engine"
-    STATUS_YT = "YouTube Engine"
-    STATUS_EXT = "Java Engine"
-    STATUS_SPLIT = "Phython Engine"
-    STATUS_ZIP = "Java Engine"
+    STATUS_ARIA = "𝘾𝙤𝙣𝙣𝙚𝙘𝙩𝙚𝙙 𝙌𝙪𝙖𝙙-9 𝙀𝙂𝙉"
+    STATUS_GDRIVE = "𝘾𝙤𝙣𝙣𝙚𝙘𝙩𝙚𝙙 𝙂𝙤𝙤𝙜𝙡𝙚 𝙀𝙂𝙉"
+    STATUS_MEGA = "𝘾𝙤𝙣𝙣𝙚𝙘𝙩𝙚𝙙 𝙈𝙚𝙜𝙖 𝘽𝙞𝙩 𝙀𝙂𝙉"
+    STATUS_QB = "𝘾𝙤𝙣𝙣𝙚𝙘𝙩𝙚𝙙 𝙐𝙩-𝘽𝙞𝙩 𝙀𝙂𝙉"
+    STATUS_TG = "𝘾𝙤𝙣𝙣𝙚𝙘𝙩𝙚𝙙 𝙂𝙞𝙩𝙝𝙪𝙗 𝙀𝙂𝙉"
+    STATUS_YT = "𝘾𝙤𝙣𝙣𝙚𝙘𝙩𝙚𝙙 𝙔𝙤𝙪𝙏𝙪𝙗𝙚 𝙀𝙂𝙉"
+    STATUS_EXT = "𝘾𝙤𝙣𝙣𝙚𝙘𝙩𝙚𝙙 𝙅𝙖𝙫𝙖 𝙀𝙂𝙉"
+    STATUS_SPLIT = "𝘾𝙤𝙣𝙣𝙚𝙘𝙩𝙚𝙙 𝙋𝙝𝙮𝙩𝙝𝙤𝙣 𝙀𝙂𝙉"
+    STATUS_ZIP = "𝘾𝙤𝙣𝙣𝙚𝙘𝙩𝙚𝙙 𝙅𝙖𝙫𝙖 𝙀𝙂𝙉"
 
 SIZE_UNITS = ['B', 'KB', 'MB', 'GB', 'TB', 'PB']
 
@@ -113,14 +113,27 @@ def get_progress_bar_string(status):
     p = 0 if total == 0 else round(completed * 100 / total)
     p = min(max(p, 0), 100)
     cFull = p // 8
-    p_str = '▆' * cFull
+    p_str = '⬤' * cFull
     p_str += ' ' * (12 - cFull)
-    p_str = f"⚡ {p_str} "
+    p_str = f"✘ {p_str} "
     return p_str
+
+def progress_bar(percentage):
+    p_used = '●'
+    p_total = '○'
+    if isinstance(percentage, str):
+        return 'NaN'
+    try:
+        percentage=int(percentage)
+    except:
+        percentage = 0
+    return ''.join(
+        p_used if i <= percentage // 10 else p_total for i in range(1, 11)
+    )
 
 def get_readable_message():
     with download_dict_lock:
-        msg = ""
+        msg = f"𝘌𝘷𝘦𝘳𝘺 𝘔𝘰𝘮𝘦𝘯𝘵 𝘐𝘴 𝘢 𝘍𝘳𝘦𝘴𝘩 𝘉𝘦𝘨𝘪𝘯𝘯𝘪𝘯𝘨"
         if STATUS_LIMIT is not None:
             tasks = len(download_dict)
             global pages
@@ -129,8 +142,8 @@ def get_readable_message():
                 globals()['COUNT'] -= STATUS_LIMIT
                 globals()['PAGE_NO'] -= 1
         for index, download in enumerate(list(download_dict.values())[COUNT:], start=1):
-            msg += f"<b>×͜× </b> <code>{escape(str(download.name()))}</code>"
-            msg += f"\n<b>⚡️ </b> <i>{download.status()}</i>\n<b>Connected - </b> {download.eng()}"
+            msg += f"\n\n<b>⬤ </b> <code>{escape(str(download.name()))}</code>"
+            msg += f"\n\n<b>⚡️</b> <i>{download.status()}</i>\n<b>⚡️</b> {download.eng()}"
             if download.status() not in [
                 MirrorStatus.STATUS_ARCHIVING,
                 MirrorStatus.STATUS_EXTRACTING,
@@ -138,38 +151,37 @@ def get_readable_message():
             ]:
                 msg += f"\n{get_progress_bar_string(download)} {download.progress()}"
                 if download.status() == MirrorStatus.STATUS_CLONING:
-                    msg += f"\n<b>Cloned </b> {get_readable_file_size(download.processed_bytes())} of {download.size()}"
+                    msg += f"\n\n<b>𝘾𝙡𝙤𝙣𝙚𝙙 </b> {get_readable_file_size(download.processed_bytes())} ⥱ {download.size()}"
                 elif download.status() == MirrorStatus.STATUS_UPLOADING:
-                    msg += f"\n<b>Receiving - </b> {get_readable_file_size(download.processed_bytes())} of {download.size()}"
+                    msg += f"\n<b>⚡️𝙍𝙚𝙘𝙚𝙞𝙫𝙞𝙣𝙜 ⥄ </b> {get_readable_file_size(download.processed_bytes())} ⥱ {download.size()}"
                 else:
-                    msg += f"\n<b>Sending - </b> {get_readable_file_size(download.processed_bytes())} of {download.size()}"
-                msg += f"\n<b>Performance - </b> {download.speed()}  <b>ETA - </b> {download.eta()}"
-                msg += f"\n<b>Elapsed - </b>{get_readable_time(time() - download.message.date.timestamp())}"
+                    msg += f"\n<b>⚡️𝙎𝙚𝙣𝙙𝙞𝙣𝙜 ⥄ </b> {get_readable_file_size(download.processed_bytes())} ⥱ {download.size()}"
+                msg += f"\n\n<b>𝙋𝙧𝙤 ⥄ </b> {download.speed()}"
+                msg += f"\n<b>𝙄𝙏 ⥄ </b> {download.eta()}"
                 try:
-                    msg += f"\n<b>Need For Speed SS - </b> {download.aria_download().num_seeders}" \
-                           f" | <b>PS - </b> {download.aria_download().connections}"
+                    msg += f"\n<b>𝙉𝙚𝙚𝙙 𝙁𝙤𝙧 𝙎𝙥𝙚𝙚𝙙 𝙎𝙎 ⥱ </b> {download.aria_download().num_seeders}"
                 except:
                     pass
                 try:
-                    msg += f"\n<b>Need For Speed SS - </b> {download.torrent_info().num_seeds}" \
-                           f" - <b>LS - </b> {download.torrent_info().num_leechs}"
+                    msg += f"\n<b>𝙉𝙚𝙚𝙙 𝙁𝙤𝙧 𝙎𝙥𝙚𝙚𝙙 𝙎𝙎 ⥱ </b> {download.torrent_info().num_seeds}" \
+                           f" ⥄ <b>LS ⥱ </b> {download.torrent_info().num_leechs}"
                 except:
                     pass
                 if download.message.chat.type != 'private':
                     try:
                         chatid = str(download.message.chat.id)[4:]
-                        msg += f'\n<b>Brother </b><a href="https://t.me/c/{chatid}/{download.message.message_id}">{download.message.from_user.first_name}</a>  <b>ID </b> <code>{download.message.from_user.id}</code>'
+                        msg += f'\n<b>𝘽𝙧𝙤𝙩𝙝𝙚𝙧 </b><a href="https://t.me/c/{chatid}/{download.message.message_id}">{download.message.from_user.first_name}</a>  <b>ID </b> <code>{download.message.from_user.id}</code>'
                     except:
                         pass
                 else:
-                    msg += f'\n<b>Request By </b> ️<code>{download.message.from_user.first_name}</code>  <b>ID </b> <code>{download.message.from_user.id}</code>'
-                msg += f"\n<b>Bot Rest - </b><code>/{BotCommands.CancelMirror} {download.gid()}</code>"
-                msg += f"\n<b>⦿ </b>{download.size()}"
-            msg += "\n\n"
+                    msg += f'\n\n<b>𝙍𝙚𝙦𝙪𝙚𝙨𝙩 𝘽𝙮 </b> ️<code>{download.message.from_user.first_name}</code>  <b>ID </b> <code>{download.message.from_user.id}</code>'
+                msg += f"\n<b>𝘽𝙤𝙩 𝙍𝙚𝙨𝙩 ⥄ </b><code>/{BotCommands.CancelMirror} {download.gid()}</code>"
+                msg += f"\n<b>⦿ ⥱ </b>{download.size()}"
+            msg += " "
             if STATUS_LIMIT is not None and index == STATUS_LIMIT:
                 break
-        bmsg = f"<b>CPU - </b> {cpu_percent()} ⥄ <b>SPACE - </b> {get_readable_file_size(disk_usage(DOWNLOAD_DIR).free)}"
-        bmsg += f"\n<b>RAM - </b> {virtual_memory().percent} ⥄ <b>UT - </b> {get_readable_time(time() - botStartTime)}"
+        bmsg = f" "
+        bmsg += f" "
         dlspeed_bytes = 0
         upspeed_bytes = 0
         for download in list(download_dict.values()):
@@ -184,7 +196,7 @@ def get_readable_message():
                     upspeed_bytes += float(spd.split('K')[0]) * 1024
                 elif 'MB/s' in spd:
                     upspeed_bytes += float(spd.split('M')[0]) * 1048576
-        bmsg += f"\n<b>SD - </b> {get_readable_file_size(dlspeed_bytes)}/s ⥄ <b>RC - </b> {get_readable_file_size(upspeed_bytes)}/s"
+        bmsg += f"\n\n<b>SD ⥄ </b> {get_readable_file_size(dlspeed_bytes)} ⥄ <b>RC ⥄ </b> {get_readable_file_size(upspeed_bytes)}"
         buttons = ButtonMaker()
         buttons.sbutton("A PROJECT BY J∆CK WITH ❤️", str(FOUR))
         sbutton = InlineKeyboardMarkup(buttons.build_menu(1))
@@ -328,7 +340,8 @@ def bot_sys_stats():
                 num_split += 1
     stats = f"""
   {currentTime}\n
-CPU - {cpu}  ⥄ RAM - {mem_p} \n
+CPU  {progress_bar(cpu)} 
+RAM  {progress_bar(mem_p)} \n
 USED - {used} ⥄ SPACE -{free} 
 SENT - {sent} ⥄ RECV - {recv}\n
 𝗗𝗨𝗠𝗕 - 𝗟⚡️𝗘𝗖𝗛 

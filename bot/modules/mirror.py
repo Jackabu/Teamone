@@ -414,7 +414,7 @@ def _mirror(bot, message, isZip=False, extract=False, isQbit=False, isLeech=Fals
         return
     mesg = message.text.split('\n')
     message_args = mesg[0].split(' ', maxsplit=1)
-    name_args = mesg[0].split('add', maxsplit=1)
+    name_args = mesg[0].split('|', maxsplit=1)
     qbitsel = False
     is_gdtot = False
     try:
@@ -426,19 +426,19 @@ def _mirror(bot, message, isZip=False, extract=False, isQbit=False, isLeech=Fals
         elif link.isdigit():
             multi = int(link)
             raise IndexError
-        if link.startswith(("add", "pas: ")):
+        if link.startswith(("|", "pswd: ")):
             raise IndexError
     except:
         link = ''
     try:
         name = name_args[1]
-        name = name.split(' pas: ')[0]
+        name = name.split(' pswd: ')[0]
         name = name.strip()
     except:
         name = ''
-    link = re_split(r"pas:add \add", link)[0]
+    link = re_split(r"pswd:| \|", link)[0]
     link = link.strip()
-    pswdMsg = mesg[0].split(' pas: ')
+    pswdMsg = mesg[0].split(' pswd: ')
     if len(pswdMsg) > 1:
         pswd = pswdMsg[1]
 

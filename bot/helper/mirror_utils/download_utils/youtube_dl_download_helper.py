@@ -194,7 +194,7 @@ class YoutubeDLHelper:
         self.__is_cancelled = True
         LOGGER.info(f"Cancelling Download: {self.name}")
         if not self.__downloading:
-            self.__onDownloadError(" ☢ ")
+            self.__onDownloadError(" ⚡️Processing Stop ")
 
     def __set_args(self, args):
         args = args.split('|')

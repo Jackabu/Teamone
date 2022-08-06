@@ -42,22 +42,22 @@ def _watch(bot, message, isZip=False, isLeech=False, multi=0):
         if link.isdigit():
             multi = int(link)
             raise IndexError
-        elif link.startswith(("|", "pswd:", "args:")):
+        elif link.startswith(("add", "pas:", "args:")):
             raise IndexError
     except:
         link = ''
     try:
-        name_arg = mssg.split('|', maxsplit=1)
+        name_arg = mssg.split('add', maxsplit=1)
         if 'args: ' in name_arg[0]:
             raise IndexError
         else:
             name = name_arg[1]
-        name = re_split(r' pswd: | args: ', name)[0]
+        name = re_split(r' pas: add args: ', name)[0]
         name = name.strip()
     except:
         name = ''
     try:
-        pswd = mssg.split(' pswd: ')[1]
+        pswd = mssg.split(' pas: ')[1]
         pswd = pswd.split(' args: ')[0]
     except:
         pswd = None
@@ -83,9 +83,9 @@ def _watch(bot, message, isZip=False, isLeech=False, multi=0):
 
     if not is_url(link):
         help_msg = "<b>Send link along with command line:</b>"
-        help_msg += "\n<code>/command</code> {link} |newname pswd: mypassword [zip] args: x:y|x1:y1"
+        help_msg += "\n<code>/command</code> {link} addnewname pas: mypassword [zip] args: x:y|x1:y1"
         help_msg += "\n\n<b>By replying to link:</b>"
-        help_msg += "\n<code>/command</code> |newname pswd: mypassword [zip] args: x:y|x1:y1"
+        help_msg += "\n<code>/command</code> addnewname pas: mypassword [zip] args: x:y|x1:y1"
         help_msg += "\n\n<b>Args Example:</b> args: playliststart:^10|match_filter:season_number=18|matchtitle:S1"
         help_msg += "\n\n<b>NOTE:</b> Add `^` before integer, some values must be integer and some string."
         help_msg += " Like playlist_items:10 works with string so no need to add `^` before the number"
@@ -112,8 +112,8 @@ def _watch(bot, message, isZip=False, isLeech=False, multi=0):
             video_format = f"bv*[height<={i}][ext=webm]"
             buttons.sbutton(f"{i}-webm", f"qu {msg_id} {video_format} t")
         buttons.sbutton("Audios", f"qu {msg_id} audio t")
-        buttons.sbutton("⚡ Best Videos", f"qu {msg_id} {best_video} t")
-        buttons.sbutton("⚡ Best Audios", f"qu {msg_id} {best_audio} t")
+        buttons.sbutton("Smart Videos", f"qu {msg_id} {best_video} t")
+        buttons.sbutton("Smart Audios", f"qu {msg_id} {best_audio} t")
         buttons.sbutton("Cancel", f"qu {msg_id} cancel")
         YTBUTTONS = InlineKeyboardMarkup(buttons.build_menu(3))
         listener_dict[msg_id] = [listener, user_id, link, name, YTBUTTONS, args]
@@ -161,8 +161,8 @@ def _watch(bot, message, isZip=False, isLeech=False, multi=0):
                 else:
                     buttons.sbutton(str(_format), f"qu {msg_id} dict {_format}")
         buttons.sbutton("Audios", f"qu {msg_id} audio")
-        buttons.sbutton("Best Video", f"qu {msg_id} {best_video}")
-        buttons.sbutton("Best Audio", f"qu {msg_id} {best_audio}")
+        buttons.sbutton("Smart Video", f"qu {msg_id} {best_video}")
+        buttons.sbutton("Smart Audio", f"qu {msg_id} {best_audio}")
         buttons.sbutton("Cancel", f"qu {msg_id} cancel")
         YTBUTTONS = InlineKeyboardMarkup(buttons.build_menu(2))
         listener_dict[msg_id] = [listener, user_id, link, name, YTBUTTONS, args, formats_dict]

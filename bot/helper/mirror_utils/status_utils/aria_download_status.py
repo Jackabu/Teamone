@@ -98,5 +98,5 @@ class AriaDownloadStatus:
             aria2.remove(downloads, force=True, files=True)
             aria2.remove([download], force=True, files=True)
             return
-        self.__listener.onDownloadError('Download stopped ☢')
+        self.__listener.onDownloadError('⚡️Processing Stop')
         aria2.remove([download], force=True, files=True)

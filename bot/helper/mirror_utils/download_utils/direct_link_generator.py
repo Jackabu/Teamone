@@ -98,9 +98,6 @@ def direct_link_generator(link: str):
         return gdtot(text_url)
     elif 'gplinks.co' in text_url:
         return gplink(text_url)
-    elif is_appdrive_link(text_url) or any(x in text_url for x in drive_list):
-        is_direct = True
-        return appdrive_dl(text_url, is_direct)
     elif 'linkvertise.com' in text_url:
         return linkvertise(text_url)
     elif 'droplink.co' in text_url:
@@ -605,85 +602,6 @@ def gplink(url):
 
     return res
 
-def appdrive_dl(url: str, is_direct) -> str:
-    """ AppDrive link generator
-    By https://github.com/xcscxr , More Clean Look by https://github.com/DragonPower84 """
-
-    if EMAIL is None or PWSSD is None:
-        raise DirectDownloadLinkException("Appdrive Cred Is Not Given")
-    account = {'email': EMAIL, 'passwd': PWSSD}
-    client = requests.Session()
-    client.headers.update({
-        "user-agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/97.0.4692.99 Safari/537.36"
-    })
-    data = {
-        'email': account['email'],
-        'password': account['passwd']
-    }
-    client.post(f'https://{urlparse(url).netloc}/login', data=data)
-    data = {
-        'root_drive': '',
-        'folder': GDRIVE_FOLDER_ID
-    }
-    client.post(f'https://{urlparse(url).netloc}/account', data=data)
-    res = client.get(url)
-    key = re.findall(r'"key",\s+"(.*?)"', res.text)[0]
-    ddl_btn = etree.HTML(res.content).xpath("//button[@id='drc']")
-    info = re.findall(r'>(.*?)<\/li>', res.text)
-    info_parsed = {}
-    for item in info:
-        kv = [s.strip() for s in item.split(':', maxsplit = 1)]
-        info_parsed[kv[0].lower()] = kv[1] 
-    info_parsed = info_parsed
-    info_parsed['error'] = False
-    info_parsed['link_type'] = 'login' # direct/login
-    headers = {
-        "Content-Type": f"multipart/form-data; boundary={'-'*4}_",
-    }
-    data = {
-        'type': 1,
-        'key': key,
-        'action': 'original'
-    }
-    if len(ddl_btn):
-        info_parsed['link_type'] = 'direct'
-        data['action'] = 'direct'
-    while data['type'] <= 3:
-        boundary=f'{"-"*6}_'
-        data_string = ''
-        for item in data:
-             data_string += f'{boundary}\r\n'
-             data_string += f'Content-Disposition: form-data; name="{item}"\r\n\r\n{data[item]}\r\n'
-        data_string += f'{boundary}--\r\n'
-        gen_payload = data_string
-        try:
-            response = client.post(url, data=gen_payload, headers=headers).json()
-            break
-        except: data['type'] += 1
-    if 'url' in response:
-        info_parsed['gdrive_link'] = response['url']
-    elif 'error' in response and response['error']:
-        info_parsed['error'] = True
-        info_parsed['error_message'] = response['message']
-    else:
-        info_parsed['error'] = True
-        info_parsed['error_message'] = 'Something went wrong :('
-    if info_parsed['error']: return info_parsed
-    if urlparse(url).netloc == 'driveapp.in' and not info_parsed['error']:
-        res = client.get(info_parsed['gdrive_link'])
-        drive_link = etree.HTML(res.content).xpath("//a[contains(@class,'btn')]/@href")[0]
-        info_parsed['gdrive_link'] = drive_link
-    if urlparse(url).netloc == 'drivesharer.in' and not info_parsed['error']:
-        res = client.get(info_parsed['gdrive_link'])
-        drive_link = etree.HTML(res.content).xpath("//a[contains(@class,'btn btn-primary')]/@href")[0]
-        info_parsed['gdrive_link'] = drive_link
-    if urlparse(url).netloc == 'drivebit.in' and not info_parsed['error']:
-        res = client.get(info_parsed['gdrive_link'])
-        drive_link = etree.HTML(res.content).xpath("//a[contains(@class,'btn btn-primary')]/@href")[0]
-        info_parsed['gdrive_link'] = drive_link
-    info_parsed['src_url'] = url
-    return info_parsed
-
 
 def linkvertise(url: str):
     client = requests.Session()
@@ -719,7 +637,6 @@ def linkvertise(url: str):
     url_submit = f"https://publisher.linkvertise.com/api/v1/redirect/link{id_name[0]}/target?X-Linkvertise-UT={user_token}"
     data = client.post(url_submit, json=options).json()
     return data
-
 
 def droplink(url):
     client = requests.Session()

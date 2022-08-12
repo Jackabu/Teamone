@@ -344,7 +344,7 @@ CPU  {progress_bar(cpu)}
 RAM  {progress_bar(mem_p)} \n
 USED - {used} ⥄ SPACE -{free} 
 SENT - {sent} ⥄ RECV - {recv}\n
-𝗗𝗨𝗠𝗕 - 𝗟⚡️𝗘𝗖𝗛 
+𝗣𝗼𝘄𝗲𝗿 𝗕𝘆 𝗗𝗨𝗠𝗕 - 𝗟⚡️𝗘𝗖𝗛 
 SD - {num_active} ⥃ RC  - {num_upload} ⥃ SPLIT - {num_split}
 ZIP  - {num_archi} ⥃ UNZIP - {num_extract} ⥃ TOTAL - {tasks} 
 """

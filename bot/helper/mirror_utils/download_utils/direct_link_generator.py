@@ -1041,7 +1041,23 @@ def mdisk(url: str) -> str:
         return query
     except ValueError:
         raise DirectDownloadLinkException("ERROR: The Content is Deleted from MDisk!")
+        
+account = {
+    'email': APPDRIVE_EMAIL,
+    'passwd': APPDRIVE_PASS
+    }
+def account_login(client, url, email, password):
+    """ AppDrive google drive link generator
+    By https://github.com/xcscxr """
 
+    if APPDRIVE_EMAIL is None:
+        raise DirectDownloadLinkException("ERROR: Appdrive  Email Password not provided")
+
+    data = {
+        'email': email,
+        'password': password
+    }
+    client.post(f'https://{urlparse(url).netloc}/login', data=data)
 
 def drivefire_dl(url: str):
 
